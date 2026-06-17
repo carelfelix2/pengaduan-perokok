@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Pengaduan — KawasanSehat</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/form.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+</head>
+<body class="form-page">
+
+  <!-- FORM HEADER -->
+  <header class="form-header">
+    <div class="form-header-inner">
+      <a href="index.html" class="btn-back" aria-label="Kembali ke beranda">
+        <i class="ti ti-arrow-left"></i>
+      </a>
+      <div class="fh-brand">
+        <span class="brand-icon small"><i class="ti ti-wind-off"></i></span>
+        <span class="fh-title">KawasanSehat</span>
+      </div>
+      <div class="fh-right">
+        <span class="form-step-label" id="step-label">Langkah 1 dari 3</span>
+      </div>
+    </div>
+    <!-- Progress bar -->
+    <div class="form-progress">
+      <div class="form-progress-fill" id="progress-fill" style="width: 33.33%"></div>
+    </div>
+  </header>
+
+  <!-- MAIN FORM CONTAINER -->
+  <main class="form-main">
+    <div class="form-container">
+
+      <!-- STEP INDICATORS -->
+      <div class="step-indicators">
+        <div class="step-ind active" id="ind-0">
+          <div class="si-circle"><i class="ti ti-user"></i></div>
+          <span>Identitas</span>
+        </div>
+        <div class="si-line"></div>
+        <div class="step-ind" id="ind-1">
+          <div class="si-circle"><i class="ti ti-map-pin"></i></div>
+          <span>Kejadian</span>
+        </div>
+        <div class="si-line"></div>
+        <div class="step-ind" id="ind-2">
+          <div class="si-circle"><i class="ti ti-camera"></i></div>
+          <span>Bukti</span>
+        </div>
+      </div>
+
+      <!-- ========== STEP 1: IDENTITAS ========== -->
+      <div class="form-step active" id="step-0">
+        <div class="step-heading">
+          <h1>Identitas pelapor</h1>
+          <p>Anda dapat melapor secara anonim. Identitas Anda tidak akan pernah dikaitkan dengan laporan ini jika memilih anonim.</p>
+        </div>
+
+        <div class="anon-toggle-group">
+          <button class="anon-btn active" id="btn-anon" onclick="setAnon(true)" type="button">
+            <i class="ti ti-eye-off"></i>
+            <span class="abt-title">Anonim</span>
+            <span class="abt-desc">Identitas disembunyikan</span>
+          </button>
+          <button class="anon-btn" id="btn-named" onclick="setAnon(false)" type="button">
+            <i class="ti ti-user-check"></i>
+            <span class="abt-title">Sertakan nama</span>
+            <span class="abt-desc">Untuk notifikasi tindak lanjut</span>
+          </button>
+        </div>
+
+        <!-- Anon note -->
+        <div class="info-box" id="anon-note">
+          <i class="ti ti-shield-check info-icon green"></i>
+          <div>
+            <strong>Pengaduan 100% anonim</strong>
+            <p>Tidak ada informasi yang mengidentifikasi Anda akan disimpan atau dikaitkan dengan laporan ini. Sistem hanya mencatat waktu pengiriman.</p>
+          </div>
+        </div>
+
+        <!-- Named fields -->
+        <div id="named-fields" class="named-section" style="display:none;">
+          <div class="field-group">
+            <label class="field-label" for="inp-name">Nama lengkap <span class="req">*</span></label>
+            <div class="input-wrap">
+              <i class="ti ti-user field-icon"></i>
+              <input type="text" id="inp-name" class="field-input has-icon" placeholder="Masukkan nama Anda" autocomplete="name">
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label" for="inp-email">Email</label>
+            <div class="input-wrap">
+              <i class="ti ti-mail field-icon"></i>
+              <input type="email" id="inp-email" class="field-input has-icon" placeholder="nama@perusahaan.com" autocomplete="email">
+            </div>
+            <p class="field-hint">Untuk menerima notifikasi tindak lanjut laporan Anda.</p>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label" for="inp-phone">Nomor HP</label>
+            <div class="input-wrap">
+              <i class="ti ti-phone field-icon"></i>
+              <input type="tel" id="inp-phone" class="field-input has-icon" placeholder="08xx-xxxx-xxxx" autocomplete="tel">
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field-group">
+              <label class="field-label" for="inp-dept">Departemen / Unit kerja</label>
+              <div class="select-wrap">
+                <select id="inp-dept" class="field-select">
+                  <option value="">— Pilih departemen —</option>
+                  <option>HRD / HR</option>
+                  <option>Operasional</option>
+                  <option>Keuangan / Finance</option>
+                  <option>Teknologi Informasi (IT)</option>
+                  <option>Marketing / Pemasaran</option>
+                  <option>Legal / Hukum</option>
+                  <option>Procurement</option>
+                  <option>Customer Service</option>
+                  <option>Manajemen</option>
+                  <option>Lainnya</option>
+                </select>
+                <i class="ti ti-chevron-down select-arrow"></i>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="inp-jabatan">Jabatan (opsional)</label>
+              <div class="input-wrap">
+                <input type="text" id="inp-jabatan" class="field-input" placeholder="Contoh: Staff, Manager">
+              </div>
+            </div>
+          </div>
+
+          <div class="info-box amber">
+            <i class="ti ti-lock info-icon amber"></i>
+            <div>
+              <strong>Data Anda aman</strong>
+              <p>Informasi identitas hanya dapat diakses oleh tim HR dan tidak akan disebarkan kepada pihak lain.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button class="btn-next" onclick="goStep(1)" type="button">
+            Lanjut ke detail kejadian <i class="ti ti-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- ========== STEP 2: DETAIL KEJADIAN ========== -->
+      <div class="form-step" id="step-1">
+        <div class="step-heading">
+          <h1>Detail kejadian</h1>
+          <p>Berikan informasi selengkap mungkin tentang kejadian yang Anda saksikan.</p>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="inp-location">Lokasi kejadian <span class="req">*</span></label>
+          <div class="select-wrap">
+            <select id="inp-location" class="field-select">
+              <option value="">— Pilih lokasi —</option>
+              <option>Ruang kerja / Open office</option>
+              <option>Toilet / Kamar mandi</option>
+              <option>Tangga darurat</option>
+              <option>Lift / Koridor</option>
+              <option>Area parkir</option>
+              <option>Kafetaria / Kantin</option>
+              <option>Lobby / Resepsionis</option>
+              <option>Ruang rapat</option>
+              <option>Rooftop / Teras gedung</option>
+              <option>Mushola / Area ibadah</option>
+              <option>Lainnya (sebutkan di bawah)</option>
+            </select>
+            <i class="ti ti-chevron-down select-arrow"></i>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field-group">
+            <label class="field-label" for="inp-floor">Lantai / Gedung</label>
+            <div class="input-wrap">
+              <i class="ti ti-building field-icon"></i>
+              <input type="text" id="inp-floor" class="field-input has-icon" placeholder="Contoh: Lantai 3, Gedung A">
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="inp-detail-loc">Detail lokasi spesifik</label>
+            <div class="input-wrap">
+              <i class="ti ti-map-pin field-icon"></i>
+              <input type="text" id="inp-detail-loc" class="field-input has-icon" placeholder="Contoh: dekat pantry, pojok kiri">
+            </div>
+          </div>
+        </div>
+
+        <div class="field-divider"></div>
+
+        <div class="field-row">
+          <div class="field-group">
+            <label class="field-label" for="inp-date">Tanggal kejadian <span class="req">*</span></label>
+            <div class="input-wrap">
+              <i class="ti ti-calendar field-icon"></i>
+              <input type="date" id="inp-date" class="field-input has-icon">
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="inp-time">Waktu (perkiraan)</label>
+            <div class="input-wrap">
+              <i class="ti ti-clock field-icon"></i>
+              <input type="time" id="inp-time" class="field-input has-icon">
+            </div>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="inp-frequency">Seberapa sering kejadian ini terjadi? <span class="req">*</span></label>
+          <div class="radio-card-group">
+            <label class="radio-card">
+              <input type="radio" name="frequency" value="pertama" checked>
+              <div class="rc-content">
+                <i class="ti ti-circle-1"></i>
+                <span>Pertama kali</span>
+              </div>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="frequency" value="beberapa">
+              <div class="rc-content">
+                <i class="ti ti-refresh"></i>
+                <span>Beberapa kali</span>
+              </div>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="frequency" value="rutin">
+              <div class="rc-content">
+                <i class="ti ti-calendar-repeat"></i>
+                <span>Hampir setiap hari</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Tingkat keparahan <span class="req">*</span></label>
+          <div class="severity-group">
+            <button type="button" class="sev-card" id="sev-low" onclick="setSeverity('low')">
+              <div class="sev-dot low"></div>
+              <div class="sev-info">
+                <strong>Ringan</strong>
+                <span>Sekali-kali, tidak langsung mengganggu</span>
+              </div>
+            </button>
+            <button type="button" class="sev-card" id="sev-med" onclick="setSeverity('med')">
+              <div class="sev-dot med"></div>
+              <div class="sev-info">
+                <strong>Sedang</strong>
+                <span>Berulang, mulai mengganggu rekan</span>
+              </div>
+            </button>
+            <button type="button" class="sev-card" id="sev-high" onclick="setSeverity('high')">
+              <div class="sev-dot high"></div>
+              <div class="sev-info">
+                <strong>Berat</strong>
+                <span>Dalam ruangan, sangat mengganggu</span>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="inp-count">Perkiraan jumlah orang yang merokok</label>
+          <div class="select-wrap">
+            <select id="inp-count" class="field-select">
+              <option>1 orang</option>
+              <option>2–3 orang</option>
+              <option>4–5 orang</option>
+              <option>Lebih dari 5 orang</option>
+            </select>
+            <i class="ti ti-chevron-down select-arrow"></i>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button class="btn-next" onclick="goStep(2)" type="button">
+            Lanjut ke bukti &amp; deskripsi <i class="ti ti-arrow-right"></i>
+          </button>
+          <button class="btn-back-step" onclick="goStep(0)" type="button">
+            <i class="ti ti-arrow-left"></i> Kembali
+          </button>
+        </div>
+      </div>
+
+      <!-- ========== STEP 3: DESKRIPSI & BUKTI ========== -->
+      <div class="form-step" id="step-2">
+        <div class="step-heading">
+          <h1>Deskripsi &amp; bukti</h1>
+          <p>Ceritakan apa yang Anda saksikan dan sertakan bukti pendukung jika ada.</p>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="inp-desc">Deskripsi kejadian <span class="req">*</span></label>
+          <textarea id="inp-desc" class="field-textarea" rows="5"
+            placeholder="Ceritakan secara singkat apa yang Anda saksikan. Contoh: Terdapat 2 orang yang merokok di dalam toilet lantai 3 sekitar pukul 14.00 WIB. Asap terasa sangat mengganggu dan bertahan lama di dalam ruangan tertutup tersebut."></textarea>
+          <div class="char-counter"><span id="char-count">0</span> / 1000 karakter</div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Dampak yang Anda rasakan</label>
+          <div class="checkbox-group">
+            <label class="check-item">
+              <input type="checkbox" id="chk-sesak">
+              <div class="ci-box"><i class="ti ti-check"></i></div>
+              <span>Sesak napas atau batuk</span>
+            </label>
+            <label class="check-item">
+              <input type="checkbox" id="chk-bau">
+              <div class="ci-box"><i class="ti ti-check"></i></div>
+              <span>Bau asap yang mengganggu</span>
+            </label>
+            <label class="check-item">
+              <input type="checkbox" id="chk-konsentrasi">
+              <div class="ci-box"><i class="ti ti-check"></i></div>
+              <span>Terganggu konsentrasi kerja</span>
+            </label>
+            <label class="check-item">
+              <input type="checkbox" id="chk-alergi">
+              <div class="ci-box"><i class="ti ti-check"></i></div>
+              <span>Memicu alergi atau iritasi mata</span>
+            </label>
+            <label class="check-item">
+              <input type="checkbox" id="chk-mual">
+              <div class="ci-box"><i class="ti ti-check"></i></div>
+              <span>Mual atau pusing</span>
+            </label>
+            <label class="check-item">
+              <input type="checkbox" id="chk-rekan">
+              <div class="ci-box"><i class="ti ti-check"></i></div>
+              <span>Rekan kerja lain juga terganggu</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Unggah bukti foto / video</label>
+          <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-input').click()">
+            <input type="file" id="file-input" accept="image/*,video/*" multiple onchange="handleFiles(this)">
+            <div class="uz-icon"><i class="ti ti-cloud-upload"></i></div>
+            <p class="uz-main">Klik atau seret file ke sini</p>
+            <p class="uz-sub">JPG, PNG, MP4, MOV — Maks. 10 MB per file, hingga 5 file</p>
+          </div>
+          <div class="preview-grid" id="preview-grid"></div>
+          <p class="field-hint">Bukti bersifat opsional, namun sangat membantu mempercepat tindak lanjut.</p>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="inp-pelanggar">Identitas terlapor (opsional)</label>
+          <div class="input-wrap">
+            <i class="ti ti-user-question field-icon"></i>
+            <input type="text" id="inp-pelanggar" class="field-input has-icon" placeholder="Nama, jabatan, atau deskripsi fisik (jika diketahui)">
+          </div>
+          <p class="field-hint">Informasi ini bersifat opsional dan akan digunakan hanya untuk keperluan investigasi internal.</p>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="inp-suggestion">Saran tindak lanjut (opsional)</label>
+          <textarea id="inp-suggestion" class="field-textarea" rows="3"
+            placeholder="Adakah tindakan yang Anda harapkan dari manajemen atau tim HR? Contoh: Pemasangan tanda larangan merokok, penambahan CCTV, teguran langsung, dll."></textarea>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Apakah ini sudah dilaporkan sebelumnya?</label>
+          <div class="radio-card-group compact">
+            <label class="radio-card">
+              <input type="radio" name="prev-report" value="tidak" checked>
+              <div class="rc-content">
+                <i class="ti ti-x"></i>
+                <span>Belum pernah</span>
+              </div>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="prev-report" value="sudah">
+              <div class="rc-content">
+                <i class="ti ti-check"></i>
+                <span>Sudah, tidak ditindak</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="privacy-box">
+          <label class="check-item required-check">
+            <input type="checkbox" id="chk-agree">
+            <div class="ci-box"><i class="ti ti-check"></i></div>
+            <span>Saya menyatakan bahwa informasi yang saya berikan adalah benar dan saya menyetujui <strong>kebijakan privasi</strong> penggunaan data laporan ini.</span>
+          </label>
+        </div>
+
+        <div class="step-actions">
+          <button class="btn-submit" onclick="submitForm()" type="button" id="btn-submit">
+            <i class="ti ti-send"></i> Kirim Pengaduan
+          </button>
+          <button class="btn-back-step" onclick="goStep(1)" type="button">
+            <i class="ti ti-arrow-left"></i> Kembali
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- SUCCESS OVERLAY -->
+  <div class="success-overlay" id="success-overlay" style="display:none;">
+    <div class="success-card">
+      <div class="sc-icon">
+        <i class="ti ti-circle-check"></i>
+      </div>
+      <h2>Pengaduan Terkirim!</h2>
+      <p>Terima kasih telah melapor. Tim HR kami akan menindaklanjuti pengaduan Anda dalam <strong>1×24 jam kerja</strong>.</p>
+      <div class="ref-box">
+        <div class="ref-label">Nomor referensi pengaduan</div>
+        <div class="ref-number" id="ref-number">#RPK-000000</div>
+        <div class="ref-hint">Simpan nomor ini untuk melacak status laporan Anda.</div>
+      </div>
+      <div class="sc-badges">
+        <span><i class="ti ti-shield-check"></i> Laporan dirahasiakan</span>
+        <span><i class="ti ti-clock"></i> Diproses dalam 24 jam</span>
+      </div>
+      <div class="sc-actions">
+        <a href="index.html" class="btn-next" style="text-decoration:none; display:inline-flex;">
+          <i class="ti ti-home"></i> Kembali ke Beranda
+        </a>
+        <button class="btn-back-step" onclick="resetAndNew()" type="button">
+          <i class="ti ti-plus"></i> Buat laporan baru
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/form.js"></script>
+</body>
+</html>
