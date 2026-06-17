@@ -405,6 +405,7 @@ em {
 .footer {
   background: #111;
   padding: 32px 0;
+  text-align: center;
 }
 .footer-inner {
   display: flex;
