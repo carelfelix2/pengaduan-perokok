@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="js/auth.js"></script>
 </head>
 <body class="dashboard-page">
 
@@ -39,7 +40,7 @@
     </nav>
 
     <div class="sidebar-footer">
-      <button class="sidebar-link" onclick="logout()">
+      <button class="sidebar-link" onclick="handleLogout()">
         <i class="ti ti-logout"></i> Keluar
       </button>
     </div>
@@ -290,25 +291,25 @@
 
           <div class="settings-field">
             <label>Username</label>
-            <input type="text" value="admin" disabled style="opacity:0.6;cursor:not-allowed;">
+            <input type="text" id="settings-username" value="admin" disabled style="opacity:0.6;cursor:not-allowed;">
           </div>
 
           <div class="settings-field">
             <label>Password saat ini</label>
-            <input type="password" placeholder="Masukkan password saat ini">
+            <input type="password" id="settings-current-pw" placeholder="Masukkan password saat ini">
           </div>
 
           <div class="settings-field">
             <label>Password baru</label>
-            <input type="password" placeholder="Masukkan password baru">
+            <input type="password" id="settings-new-pw" placeholder="Masukkan password baru (min. 4 karakter)">
           </div>
 
           <div class="settings-field">
             <label>Konfirmasi password baru</label>
-            <input type="password" placeholder="Konfirmasi password baru">
+            <input type="password" id="settings-confirm-pw" placeholder="Konfirmasi password baru">
           </div>
 
-          <button class="settings-save-btn" onclick="showToast('Fitur penggantian password akan tersedia di update berikutnya.', 'info')">
+          <button class="settings-save-btn" onclick="handleChangePassword()">
             <i class="ti ti-device-floppy"></i> Simpan Perubahan
           </button>
         </div>
@@ -346,6 +347,9 @@
             </button>
             <button class="btn-action" onclick="var d=JSON.stringify(complaints,null,2); var a=document.createElement('a'); a.href='data:application/json;charset=utf-8,'+encodeURIComponent(d); a.download='kawasansehat-data-backup.json'; a.click(); showToast('Data berhasil diunduh.', 'success');">
               <i class="ti ti-download"></i> Backup Data (JSON)
+            </button>
+            <button class="btn-action warning" onclick="if(confirm('Reset akun admin ke default (admin/kawasansehat2025)? Data pengaduan tidak akan terhapus.')){ localStorage.removeItem('kawasansehat_users'); localStorage.removeItem('kawasansehat_session'); showToast('Akun admin telah direset. Silakan login ulang.', 'success'); setTimeout(function(){ window.location.href='admin.html'; }, 1500); }">
+              <i class="ti ti-refresh"></i> Reset Akun Admin
             </button>
           </div>
         </div>
@@ -482,6 +486,12 @@
     </div>
   </div>
 
+  <script>
+    // ---- Session check on page load ----
+    if (!Auth.isAuthenticated()) {
+      window.location.href = 'admin.html';
+    }
+  </script>
   <script src="js/dashboard.js"></script>
 </body>
 </html>

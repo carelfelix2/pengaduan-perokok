@@ -152,6 +152,15 @@ document.addEventListener('DOMContentLoaded', function() {
     dateEl.textContent = now.toLocaleDateString('id-ID', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
   }
 
+  // Set username in settings
+  var usernameEl = document.getElementById('settings-username');
+  if (usernameEl) {
+    var session = Auth.getSession();
+    if (session) {
+      usernameEl.value = session.username;
+    }
+  }
+
   populateMonthFilter();
 
   function initCharts() {
@@ -660,7 +669,68 @@ function showToast(msg, type) {
 }
 
 // ---- LOGOUT ----
-function logout() {
-  localStorage.removeItem('kawasansehat_admin');
+function handleLogout() {
+  Auth.logout();
   window.location.href = 'admin.html';
+}
+
+// ---- CHANGE PASSWORD ----
+function handleChangePassword() {
+  console.log('handleChangePassword called');
+  
+  var currentPwEl = document.getElementById('settings-current-pw');
+  var newPwEl = document.getElementById('settings-new-pw');
+  var confirmPwEl = document.getElementById('settings-confirm-pw');
+  
+  if (!currentPwEl || !newPwEl || !confirmPwEl) {
+    console.error('Password elements not found');
+    showToast('Terjadi kesalahan: elemen form tidak ditemukan.', 'error');
+    return;
+  }
+  
+  var currentPw = currentPwEl.value.trim();
+  var newPw = newPwEl.value.trim();
+  var confirmPw = confirmPwEl.value.trim();
+
+  // Validate inputs
+  if (!currentPw) {
+    showToast('Mohon masukkan password saat ini.', 'error');
+    document.getElementById('settings-current-pw').focus();
+    return;
+  }
+
+  if (!newPw || newPw.length < 4) {
+    showToast('Password baru minimal 4 karakter.', 'error');
+    document.getElementById('settings-new-pw').focus();
+    return;
+  }
+
+  if (newPw !== confirmPw) {
+    showToast('Konfirmasi password baru tidak cocok.', 'error');
+    document.getElementById('settings-confirm-pw').focus();
+    return;
+  }
+
+  if (newPw === currentPw) {
+    showToast('Password baru harus berbeda dari password saat ini.', 'error');
+    return;
+  }
+
+  var session = Auth.getSession();
+  if (!session) {
+    showToast('Sesi tidak valid. Silakan login ulang.', 'error');
+    return;
+  }
+
+  var result = Auth.changePassword(session.username, currentPw, newPw);
+
+  if (result.success) {
+    showToast('✓ ' + result.message, 'success');
+    // Clear password fields
+    document.getElementById('settings-current-pw').value = '';
+    document.getElementById('settings-new-pw').value = '';
+    document.getElementById('settings-confirm-pw').value = '';
+  } else {
+    showToast('✗ ' + result.message, 'error');
+  }
 }

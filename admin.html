@@ -26,7 +26,7 @@
         <span id="login-error-msg">Username atau password salah.</span>
       </div>
 
-      <form class="login-form" id="login-form" onsubmit="return handleLogin(event)">
+      <form class="login-form" id="login-form">
         <div class="field-group">
           <label class="field-label" for="login-username">Username</label>
           <div class="input-wrap">
@@ -54,9 +54,15 @@
     </div>
   </div>
 
+  <script src="js/auth.js"></script>
   <script>
-    // Admin login handler
-    function handleLogin(e) {
+    // ---- Check if already logged in ----
+    if (Auth.isAuthenticated()) {
+      window.location.href = 'dashboard.html';
+    }
+
+    // ---- Login form handler ----
+    document.getElementById('login-form').addEventListener('submit', function (e) {
       e.preventDefault();
 
       var username = document.getElementById('login-username').value.trim();
@@ -65,11 +71,16 @@
       var errorMsg = document.getElementById('login-error-msg');
       var btn = document.getElementById('login-btn');
 
-      // Default credentials
-      if (username === 'admin' && password === 'kawasansehat2025') {
-        // Set login flag
-        localStorage.setItem('kawasansehat_admin', 'true');
+      if (!username || !password) {
+        errorEl.style.display = 'flex';
+        errorMsg.textContent = 'Username dan password harus diisi.';
+        shakeCard();
+        return;
+      }
 
+      var result = Auth.login(username, password);
+
+      if (result.success) {
         // Show loading state
         btn.disabled = true;
         btn.innerHTML = '<i class="ti ti-loader-2" style="animation:spin 1s linear infinite;"></i> Memproses...';
@@ -80,28 +91,20 @@
         document.head.appendChild(style);
 
         // Redirect after brief delay
-        setTimeout(function() {
+        setTimeout(function () {
           window.location.href = 'dashboard.html';
         }, 600);
-
-        return false;
+      } else {
+        errorEl.style.display = 'flex';
+        errorMsg.textContent = result.message;
+        shakeCard();
       }
+    });
 
-      // Show error
-      errorEl.style.display = 'flex';
-      errorMsg.textContent = 'Username atau password tidak valid.';
-
-      // Shake animation
+    function shakeCard() {
       var card = document.querySelector('.login-card');
       card.style.animation = 'shake 0.4s ease';
-      setTimeout(function() { card.style.animation = ''; }, 400);
-
-      return false;
-    }
-
-    // Check if already logged in
-    if (localStorage.getItem('kawasansehat_admin') === 'true') {
-      window.location.href = 'dashboard.html';
+      setTimeout(function () { card.style.animation = ''; }, 400);
     }
   </script>
 
